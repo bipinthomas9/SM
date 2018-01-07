@@ -1,9 +1,6 @@
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <b>Landing Page...</b>
-    </body>
-</html>
+<?php 
+
+require_once( 'CIndexController.class.php' );
+
+$test = new CIndexController();
+$test->start();
