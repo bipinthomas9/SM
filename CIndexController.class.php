@@ -10,7 +10,7 @@ class CIndexController extends CBaseController {
 
 	public function start() {
 		parent::start();
-		echo "Started";
+		echo "Start";
 	}
     
 }
