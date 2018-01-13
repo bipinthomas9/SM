@@ -12,7 +12,7 @@
 			'index'	=> 'index.php',
 		),
 		'defaults'	=> array(
-			'controller'	=> 'CMain',
+			'controller'	=> 'CMainController',
 			'method'		=> 'index',
 		),
 		'routes'	=> array(),

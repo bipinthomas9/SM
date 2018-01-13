@@ -8,9 +8,10 @@ class CRouter {
 		$this->m_arrRoute	= $GLOBALS[ 'config' ][ 'routes' ];
 		$strRoute			= $this->getRoute();
 		if( class_exists( $strRoute[ 'controller' ] ) ) {
-			$objController	= new $strRoute[ 'controller' ]();
+			$objController		= new $strRoute[ 'controller' ]();
+			$strFunctionName	= $strRoute[ 'method' ];
 			if( method_exists( $objController, $strRoute[ 'method' ] ) ) {
-				$objController->$strRoute[ 'method' ]();
+				$objController->$strFunctionName();
 			}else {
 				CErrorHandler::showError(404);
 			}
@@ -56,11 +57,11 @@ class CRouter {
 		return explode( '/', $arrRoute );
 	}
 
-	static function getUri( $strPart ) {
-		$strParts = explode( '/', $_SERVER[ 'REQUEST_URI' ] );
-		if( $strParts[ 1 ] == $GLOBALS[ 'config' ][ 'path' ][ 'index' ] ) {
-			$strPart++;
+	static function getUri( $intUrlPart ) {
+		$arrUrlParts = explode( '/', $_SERVER[ 'REQUEST_URI' ] );
+		if( $arrUrlParts[ 1 ] == $GLOBALS[ 'config' ][ 'path' ][ 'index' ] ) {
+			$intUrlPart++;
 		}
-		return ( isset( $strParts[ $strPart ] ) ) ? $strParts[ $strPart ] : '';
+		return ( isset( $arrUrlParts[ $intUrlPart ] ) ) ? $arrUrlParts[ $intUrlPart ] : '';
 	}
 }
