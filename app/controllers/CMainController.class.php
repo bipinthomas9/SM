@@ -1,6 +1,6 @@
 <?php
 
-class CMain {
+class CMain extends CBaseController {
 
 	function index() {
 		echo 'main';
