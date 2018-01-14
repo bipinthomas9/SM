@@ -2,7 +2,9 @@
 
 class CBaseController {
 	
-	public function __construct() {}
+	public function __construct() {
+		$GLOBALS[ 'instances' ][]	= &$this;
+	}
 	
 	public function init() {}
 	
