@@ -9,7 +9,11 @@ class CDatabase {
 	public $m_strLengths		= '';
 	public $m_intNumRows		= '';
 
-	function __construct( $arrDatabaseCredentials , $objDatabase = NULL ) {
+	function __construct(  ) {
+
+	}
+
+	function connect( $arrDatabaseCredentials , $objDatabase = NULL ) {
 		if( is_null( $objDatabase ) ) {
 			$this->m_objDatabase = new mysqli(
 				$arrDatabaseCredentials[ 'host' ],
@@ -32,8 +36,9 @@ class CDatabase {
 
 	function referenceValues( $arr ) {
 		if( 0 <= strnatcmp( phpversion(), '5.3' ) ) {
+
 			$strReference = array();
-			foreach ( $strReference as $key => $value ) {
+			foreach ( $arr as $key => $value ) {
 				$strReference[ $key ] = &$arr[ $key ];
 			}
 			return $strReference;
@@ -54,6 +59,7 @@ class CDatabase {
 				$arrArguments		= array( $arrArgumentsCopy );
 			}
 			if( $strStatement = $this->m_objDatabase->prepare( $strQuery ) ) {
+				//var_dump( $this->m_objDatabase->prepare( $strQuery ) );die();
 				$objDatatypes = '';
 				foreach ( $arrArguments as $value ) {
 					if( is_int( $value ) ) {
@@ -67,6 +73,7 @@ class CDatabase {
 					}
 				}
 				array_unshift( $arrArguments, $objDatatypes );
+				var_dump( $this->referenceValues( $arrArguments ) );
 				if( call_user_func_array( array( $strStatement, 'bind_param' ), $this->referenceValues( $arrArguments ) ) ) {
 					$strStatement->execute();
 					$this->m_result	= $strStatement->get_result();

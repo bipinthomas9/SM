@@ -1,9 +1,10 @@
 <?php
 	 spl_autoload_register( function( $class ) {
-		 var_dump( $class,$GLOBALS[ 'instances' ] );
+		 //var_dump( $class,$GLOBALS[ 'instances' ] );
 		$strCoreDirPath	= $GLOBALS[ 'config' ][ 'path' ][ 'core' ];
 		$strAppDirPath	= $GLOBALS[ 'config' ][ 'path' ][ 'app' ];
 
+         $boolIsInstantiable = '';
 		if( file_exists( $strCoreDirPath . 'abstracts/' . $class . '.php' ) ) {
 			$boolIsInstantiable = false;
 			require_once $strCoreDirPath . 'abstracts/' . $class . '.php';

@@ -8,21 +8,6 @@ class CMainController extends CBaseController {
 		);
 		$arrLoadFiles = array(
 			[
-				'name'		=> 'bootstrap',
-				'extension'	=> '.css',
-				'directory'	=> 'bootstrap/css/'
-			],
-			[
-				'name'		=> 'jquery',
-				'extension'	=> '.js',
-				'directory'	=> 'jquery/'
-			],
-			[
-				'name'		=> 'bootstrap',
-				'extension'	=> '.js',
-				'directory'	=> 'bootstrap/js/'
-			],
-			[
 				'name'		=> 'head',
 				'extension'	=> '.php',
 				'directory'	=> 'template/'

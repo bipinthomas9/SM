@@ -4,7 +4,8 @@
 	ini_set( 'display_errors', 1 );
 
 	$GLOBALS[ 'config' ] = array(
-		'addName'	=> 'phpSteroid',
+		'appName'	=> 'phpSteroid',
+		'version'	=> '0.0.1',
 		'domain'	=> 'phpSteroid.com',
 		'path'		=> array(
 			'app'	=> 'app/',
@@ -18,9 +19,9 @@
 		'routes'	=> array(),
 		'database'	=> array(
 			'host'		=> 'localhost',
-			'username'	=> '',
+			'username'	=> 'root',
 			'password'	=> '',
-			'name'		=> '',
+			'name'		=> 'socman',
 		)
 	);
 	$GLOBALS[ 'instances' ]	= array();

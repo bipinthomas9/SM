@@ -5,8 +5,9 @@ class CRouter {
 	private $m_arrRoute;
 
 	function __construct() {
-		$this->m_arrRoute	= $GLOBALS[ 'config' ][ 'routes' ];
-		$strRoute			= $this->getRoute();
+//		$this->m_arrRoute	= $GLOBALS[ 'config' ][ 'routes' ];
+		$this->m_arrRoute	= CRouteDefinitions::getAllRoutes();
+		$strRoute			= $this->testGetRoute();
 		if( class_exists( $strRoute[ 'controller' ] ) ) {
 			$objController		= new $strRoute[ 'controller' ]();
 			$strFunctionName	= $strRoute[ 'method' ];
@@ -18,6 +19,29 @@ class CRouter {
 		}else {
 			CErrorHandler::showError(404);
 		}
+	}
+
+	private function testGetRoute() {
+		$arrUrlParts = explode( '/', $_SERVER[ 'REQUEST_URI' ] );
+		$intCounter = 1;
+		$strMethodName = $GLOBALS[ 'config' ][ 'defaults' ][ 'method' ];
+		$strControllerUrl = 'index';
+		$strControllerName = $GLOBALS[ 'config' ][ 'defaults' ][ 'controller' ];
+		foreach ( $arrUrlParts as $value ) {
+			if( NULL != $value || '' != $value ) {
+				if( array_key_exists( $value, $this->m_arrRoute[ 'routes' ] ) && $intCounter == 1 ) {
+					$strControllerName	= $this->m_arrRoute[ 'routes' ][ $value ][ 'controller' ];
+					$strControllerUrl	= $value;
+				}else if( 1 < $intCounter && array_key_exists( $value, $this->m_arrRoute[ 'routes' ][ $strControllerUrl ][ 'subActions' ] ) ) {
+					$strMethodName = $this->m_arrRoute[ 'routes' ][ $strControllerUrl ][ 'subActions' ][ $value ];
+				}
+				$intCounter++;
+			}
+		}
+		return  [
+			'controller'	=> $strControllerName,
+			'method'		=> $strMethodName
+		];
 	}
 
 	private function getRoute() {
@@ -59,6 +83,7 @@ class CRouter {
 
 	static function getUri( $intUrlPart ) {
 		$arrUrlParts = explode( '/', $_SERVER[ 'REQUEST_URI' ] );
+
 		if( $arrUrlParts[ 1 ] == $GLOBALS[ 'config' ][ 'path' ][ 'index' ] ) {
 			$intUrlPart++;
 		}
