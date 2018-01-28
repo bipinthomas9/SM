@@ -27,13 +27,17 @@ class CRouter {
 		$strMethodName = $GLOBALS[ 'config' ][ 'defaults' ][ 'method' ];
 		$strControllerUrl = 'index';
 		$strControllerName = $GLOBALS[ 'config' ][ 'defaults' ][ 'controller' ];
-		foreach ( $arrUrlParts as $value ) {
+		foreach ( $arrUrlParts as $key => $value ) {
 			if( NULL != $value || '' != $value ) {
 				if( array_key_exists( $value, $this->m_arrRoute[ 'routes' ] ) && $intCounter == 1 ) {
 					$strControllerName	= $this->m_arrRoute[ 'routes' ][ $value ][ 'controller' ];
 					$strControllerUrl	= $value;
 				}else if( 1 < $intCounter && array_key_exists( $value, $this->m_arrRoute[ 'routes' ][ $strControllerUrl ][ 'subActions' ] ) ) {
 					$strMethodName = $this->m_arrRoute[ 'routes' ][ $strControllerUrl ][ 'subActions' ][ $value ];
+				}else if( 1 < $intCounter ) {
+					$strControllerName	= $value;
+				}else {
+					$strMethodName		= $value;
 				}
 				$intCounter++;
 			}

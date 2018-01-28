@@ -3,13 +3,14 @@
 class CAdminController extends CBaseController {
 
 	function index() {
-		$arrLoadFiles = array(
+
+		$arrLoadFiles = [
 			[
 				'name'		=> 'adminlogin',
 				'extension'	=> '.php',
 				'directory'	=> 'admin/'
 			],
-		);
+		];
 		if( CCommon::isLoggedIn() ) {
 			CUrl::redirect( '/admin/home' );
 		}else {
@@ -29,6 +30,11 @@ class CAdminController extends CBaseController {
 				CLoadView::getView( $arrLoadFiles );
 			}
 		}
+	}
+
+	function doLogout() {
+		CSession::endSession();
+		CUrl::redirect('/');
 	}
 
 

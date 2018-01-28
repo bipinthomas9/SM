@@ -10,7 +10,8 @@ class CRouteDefinitions {
 					'controller'	=> 'CAdminController',
 					'action'		=> 'index',
 					'subActions'	=> [
-						'add'	=> 'add'
+						'add'		=> 'add',
+						'logout'	=> 'doLogout'
 					]
 				]
 			]

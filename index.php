@@ -4,9 +4,10 @@
 	ini_set( 'display_errors', 1 );
 
 	$GLOBALS[ 'config' ] = array(
-		'appName'	=> 'phpSteroid',
+		'appName'	=> 'socman',
 		'version'	=> '0.0.1',
-		'domain'	=> 'phpSteroid.com',
+		'domain'	=> 'http://www.socman.com/',
+		'logo'		=> 'assets/img/logo.png',
 		'path'		=> array(
 			'app'	=> 'app/',
 			'core'	=> 'core/',

@@ -3,15 +3,8 @@
 class CMainController extends CBaseController {
 
 	function index() {
-		$arrAssets = array(
-			'logo'	=> 'assets/img/logo.png'
-		);
-		$arrLoadFiles = array(
-			[
-				'name'		=> 'head',
-				'extension'	=> '.php',
-				'directory'	=> 'template/'
-			],
+
+		$arrLoadFiles = [
 			[
 				'name'		=> 'index',
 				'extension'	=> '.php',
@@ -22,8 +15,8 @@ class CMainController extends CBaseController {
 				'extension'	=> '.php',
 				'directory'	=> 'template/'
 			]
-		);
-		CLoadView::getView( $arrLoadFiles, $arrAssets );
+		];
+		CLoadView::getView( $arrLoadFiles );
 	}
 
 }

@@ -1,9 +1,16 @@
 <?php 
 
 class CBaseController {
-	
+
 	public function __construct() {
 		$GLOBALS[ 'instances' ][]	= &$this;
+		self::init();
+	}
+
+	public function init() {
+		$arrAssets = [
+			'logo'	=>  $GLOBALS[ 'config' ][ 'domain' ] . $GLOBALS[ 'config' ][ 'logo' ]
+		];
 		$arrLoadFiles = array(
 			[
 				'name'		=> 'bootstrap',
@@ -19,12 +26,15 @@ class CBaseController {
 				'name'		=> 'bootstrap',
 				'extension'	=> '.js',
 				'directory'	=> 'bootstrap/js/'
-			]
+			],
+			[
+				'name'			=> 'head',
+				'extension'		=> '.php',
+				'directory'		=> 'template/'
+			],
 		);
-		CLoadView::getView( $arrLoadFiles );
+		CLoadView::getView( $arrLoadFiles, $arrAssets );
 	}
-	
-	public function init() {}
 	
 	public function create() {}
 	

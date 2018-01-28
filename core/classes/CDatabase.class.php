@@ -13,21 +13,34 @@ class CDatabase {
 
 	}
 
-	function connect( $arrDatabaseCredentials , $objDatabase = NULL ) {
-		if( is_null( $objDatabase ) ) {
-			$this->m_objDatabase = new mysqli(
-				$arrDatabaseCredentials[ 'host' ],
-				$arrDatabaseCredentials[ 'username' ],
-				$arrDatabaseCredentials[ 'password' ]
-			);
-		}else {
-			$this->m_objDatabase = new mysqli(
-				$arrDatabaseCredentials[ 'host' ],
-				$arrDatabaseCredentials[ 'username' ],
-				$arrDatabaseCredentials[ 'password' ],
-				$objDatabase
-			);
-		}
+	function connect( $arrDatabaseCredentials , $objDatabase ) {
+
+		$arrstrPdoOptions = [
+			PDO::ATTR_ERRMODE				=> PDO::ERRMODE_EXCEPTION,
+			PDO::ATTR_DEFAULT_FETCH_MODE	=> PDO::FETCH_ASSOC,
+			PDO::ATTR_EMULATE_PREPARES		=> false,
+		];
+
+		$this->m_objDatabase = new PDO(
+			'mysql:host=' . $arrDatabaseCredentials[ 'host' ] . ';dbname=' . $objDatabase . ';charset=utf8mb4',
+			$arrDatabaseCredentials[ 'username' ],
+			$arrDatabaseCredentials[ 'password' ],
+			$arrstrPdoOptions
+		);
+//		if( is_null( $objDatabase ) ) {
+//			$this->m_objDatabase = new mysqli(
+//				$arrDatabaseCredentials[ 'host' ],
+//				$arrDatabaseCredentials[ 'username' ],
+//				$arrDatabaseCredentials[ 'password' ]
+//			);
+//		}else {
+//			$this->m_objDatabase = new mysqli(
+//				$arrDatabaseCredentials[ 'host' ],
+//				$arrDatabaseCredentials[ 'username' ],
+//				$arrDatabaseCredentials[ 'password' ],
+//				$objDatabase
+//			);
+//		}
 	}
 
 	function changeDatabase( $objDatabase ) {
@@ -47,6 +60,17 @@ class CDatabase {
 	}
 
 	function executeQuery( $strQuery, $arrArguments = NULL ) {
+		if( true == is_null( $arrArguments ) ) {
+			echo 'Ran If';
+			$str = $this->m_objDatabase->prepare( $strQuery );
+			$str->execute();
+			return $this->m_result = $str;
+		}else {
+			$str = $this->m_objDatabase->prepare( $strQuery );
+			$str->execute( $arrArguments );
+			return $this->m_result = $str;
+		}
+
 		if( is_null( $arrArguments ) ) {
 			$this->m_result				= $this->m_objDatabase->query( $strQuery );
 			$this->m_intNumRows			= $this->m_result-> num_rows;
@@ -73,7 +97,6 @@ class CDatabase {
 					}
 				}
 				array_unshift( $arrArguments, $objDatatypes );
-				var_dump( $this->referenceValues( $arrArguments ) );
 				if( call_user_func_array( array( $strStatement, 'bind_param' ), $this->referenceValues( $arrArguments ) ) ) {
 					$strStatement->execute();
 					$this->m_result	= $strStatement->get_result();
@@ -106,16 +129,16 @@ class CDatabase {
 		return $this->m_result->data_seek( $intOffset );
 	}
 
-	function fetch_all() {
-		return $this->m_result->fetch_all();
+	function fetchAll() {
+		return $this->m_result->fetchall( PDO::FETCH_ASSOC );
 	}
 
 	function fetch_array() {
 		return $this->m_result->fetch_array();
 	}
 
-	function fetch_assoc() {
-		return $this->m_result->fetch_assoc();
+	function fetch() {
+		return $this->m_result->fetch( PDO::FETCH_ASSOC );
 	}
 
 	function fetch_field_direct( $strField ) {
@@ -130,11 +153,11 @@ class CDatabase {
 		return $this->m_result->fetch_fields();
 	}
 
-	function fetch_object( $strClassName = 'stdClass', $strParams = NULL ) {
+	function fetchObject( $strClassName = 'stdClass', $strParams = NULL ) {
 		if( is_null( $strParams ) ) {
-			return $this->m_result->fetch_object( $strClassName );
+			return $this->m_result->fetchObject( $strClassName );
 		}else {
-			return $this->m_result->fetch_object( $strClassName, $strParams );
+			return $this->m_result->fetchObject( $strClassName, $strParams );
 		}
 	}
 
@@ -159,6 +182,6 @@ class CDatabase {
 	}
 
 	function __destruct() {
-		$this->m_objDatabase->close();
+		$this->m_objDatabase = NULL;
 	}
 }

@@ -12,11 +12,11 @@ class CLoadView {
 			switch ( $file[ 'extension' ] ) {
 				case '.css':
 					$strFilePath .= $strAppDirectory . 'libs/' . $file[ 'directory' ] . $file[ 'name' ] . $file[ 'extension' ];
-					echo '<link rel="stylesheet" href=' . $strFilePath . ' extension="text/css">';
+					echo '<link rel="stylesheet" href=' . $GLOBALS[ 'config' ][ 'domain' ] . $strFilePath . ' extension="text/css">';
 					break;
 				case '.js':
 					$strFilePath .= $strAppDirectory . 'libs/' . $file[ 'directory' ] . $file[ 'name' ] . $file[ 'extension' ];
-					echo '<script src=' . $strFilePath . '></script>';
+					echo '<script src=' . $GLOBALS[ 'config' ][ 'domain' ] . $strFilePath . '></script>';
 					break;
 				case '.php':
 					$strFilePath .= $strAppDirectory . 'views/' . $file[ 'directory' ] . $file[ 'name' ] . $file[ 'extension' ];
